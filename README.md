@@ -19,6 +19,12 @@ The directory structure for this repository is as follows. To use this code out 
 ├── PIRATES/ (clone of this repository)
 │   ├── final_runexpt_fitnn_jatis.py       # Script to organise and design PIRATES
 │   ├── final_imrfitnn_jatis.py            # Contains all functions to build, train, iteratively fit and evaluate PIRATES
+
+│   ├── make_MCFOST_model.py               # Code to generate training data for PIRATES
+│   ├── custom_MCFOST_density.py           # Code to generate custom MCFOST density grids
+│   ├── Default_parameters.py              # Code to generate MCFOST parameter files - adapted from 
+│   ├── Alison_functions.py                # Code to generate MCFOST parameter files - adapted from 
+ 
 │   ├── u_coords.npy                       # Example u coordinates (u,v) for g18 mask
 │   ├── v_coords.npy                       # Example v coordinates (u,v) for g18 mask
 │   └── indx_of_cp.npy                     # Exmaple indicies of (u,v) for closure phase sampling
