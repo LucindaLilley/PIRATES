@@ -13,7 +13,7 @@ Prior to using this package you will need to have the following meta data:
 * the index of the (u,v) coordinates used for closure phase quantities
  
 
-The directory structure for this repository is as follows. To use this code out of the box, the user is required to add some folders where indicated.
+The directory structure for this repository is as follows. To use this code out of the box, the user is required to add some folders where indicated by 'User created' or 'User generated' labels.
 
 <pre>
 ├── PIRATES/ (clone of this repository)
