@@ -56,8 +56,6 @@ def pol_ssim(unnorm_pred_it_stokes, unnorm_real_stokes):
 
     return im_pl
 
-def save_y_pred(y_pred):
-    np.save("/home/luci/Desktop/image_recon_temp/dataset_uniform/model_mucep_cps2018/savefigs/saved_y_pred.npy", y_pred.numpy())
 
 
 
@@ -152,17 +150,17 @@ def study_through_lp_tensor(final_stokes):
         return H, V, H45, V45
 
 def calc_vis_tensor(fft):
-    vis = tf.square(tf.abs(fft)) #np.abs(fft) ** 2
+    vis = tf.square(tf.abs(fft))
     return vis
 
 
 def apply_DFTM1_tensor(image, dftm):
     '''Apply a direct Fourier transform matrix to an image.'''
-    image /= tf.keras.backend.sum(image)  # already happening! :)
+    image /= tf.keras.backend.sum(image)
     a = tf.convert_to_tensor(dftm, dtype = tf.complex128)
     b = tf.cast(image, tf.float64)
     zeros_e = tf.cast(tf.zeros_like(image), tf.float64)
-    b = tf.complex(b, zeros_e)   #, dtype = tf.dtypes.complex128)
+    b = tf.complex(b, zeros_e)
     b = tf.keras.backend.flatten(b)
     b = tf.expand_dims(b, 1)
     return tf.keras.backend.dot(a, b)
@@ -305,13 +303,13 @@ def unnorm_images(stokes, norm_params):
         dim2 = np.shape(stokes)[1]
         dim3 = np.shape(stokes)[2]
 
-        if dim1 == 128 and dim2 == 128:  # 128, 128, 3
+        if dim1 == 128 and dim2 == 128:
             stokes[:, :, 0] = (stokes[:, :, 0] * norm_params['sd_I_image']) + norm_params['mean_I_image']
             stokes[:, :, 1] = (stokes[:, :, 1] * norm_params['sd_Q_image']) + norm_params['mean_Q_image']
             stokes[:, :, 2] = (stokes[:, :, 2] * norm_params['sd_U_image']) + norm_params['mean_U_image']
             stokes[:, :, 3] = stokes[:, :, 3]
 
-        else:  # then its 3, 128, 128
+        else:
 
             stokes[0, :, :] = (stokes[0, :, :] * norm_params['sd_I_image']) + norm_params['mean_I_image']
             stokes[1, :, :] = (stokes[1, :, :] * norm_params['sd_Q_image']) + norm_params['mean_Q_image']
@@ -325,14 +323,14 @@ def unnorm_images(stokes, norm_params):
         dim3 = np.shape(stokes)[2]
         dim4 = np.shape(stokes)[3]
 
-        if dim4 == 4:  # 1, 128, 128, 3
+        if dim4 == 4:
 
             stokes[:, :, :, 0] = (stokes[:, :, :, 0] * norm_params['sd_I_image']) + norm_params['mean_I_image']
             stokes[:, :, :, 1] = (stokes[:, :, :, 1] * norm_params['sd_Q_image']) + norm_params['mean_Q_image']
             stokes[:, :, :, 2] = (stokes[:, :, :, 2] * norm_params['sd_U_image']) + norm_params['mean_U_image']
             stokes[:, :, :, 3] = stokes[:, :, :, 3]
 
-        elif dim1 == 4:  # 3, 128, 128, 1
+        elif dim1 == 4:
 
             stokes[0, :, :, :] = (stokes[0, :, :, :] * norm_params['sd_I_image']) + norm_params['mean_I_image']
             stokes[1, :, :, :] = (stokes[1, :, :, :] * norm_params['sd_Q_image']) + norm_params['mean_Q_image']
@@ -793,7 +791,7 @@ class imrnn:
             mode='min',
             min_delta=1e-12,
             cooldown=5,
-            min_lr=1e-8  #was 10 Minimum learning rate before reducing stops
+            min_lr=1e-8
         )
 
 
@@ -814,7 +812,7 @@ class imrnn:
 
         self.model.save(self.datadir + self.model_name + 'trained_model_{}.keras'.format(tag))
 
-        self.predvals = self.model.predict(self.X_test)  #
+        self.predvals = self.model.predict(self.X_test)
         self.testvals = self.y_test
         self.Xtestvals = self.X_test
 
@@ -857,7 +855,6 @@ class imrnn:
 
         MSE_val_totals = 0
 
-        # MSE_val_totals = np.mean((self.y_test - self.predvals) ** 2)
 
         for i in range(np.shape(self.y_test)[0]):
 
@@ -906,18 +903,6 @@ class imrnn:
             current_truthimage = self.testvals[k, :]  # TRUTH IMAGES
 
 
-            # I vis, I cp, Qvis, Q cp, Uvis, Ucp
-
-            # std_Ivis = np.std(self.Xdata[:, 0:153])  # 153
-            # std_Icp = np.std(self.Xdata[:, 153:969])  # 816
-            #
-            # std_Qvis = np.std(self.Xdata[:, 969:1122])  # 153
-            # std_Qcp = np.std(self.Xdata[:, 1122:1938])  # 816
-            #
-            # std_Uvis = np.std(self.Xdata[:, 1938:2091])  # 153
-            # std_Ucp = np.std(self.Xdata[:, 2091:2907])  # 816
-
-
 
             true_I_vis = (current_truevisibilities[0:153] * self.normfacts_X['sd_I_vis']) + self.normfacts_X[ 'mean_I_vis']
             true_I_cp = (current_truevisibilities[153:969] * self.normfacts_X['sd_I_cp']) +  self.normfacts_X['mean_I_cp']
@@ -939,7 +924,6 @@ class imrnn:
             stokes_pred_unnorm = unnorm_images(stokes_pred, self.normfacts_y)
             stokes_pred_unnorm[:, :, 0] = 10 ** (stokes_pred_unnorm[:, :, 0])
 
-            #true_I_vis, true_I_cp, true_Q_vis, true_Q_cp, true_U_vis,  true_U_cp
             pred_I_vis, pred_I_cp, pred_Q_vis, pred_Q_cp, pred_U_vis,  pred_U_cp = stokes_2_vampires_bispect(stokes_pred_unnorm, self.dftm_grid, self.indx_of_cp, self.bl, self.az)
 
 
