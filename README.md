@@ -7,8 +7,8 @@ There are two components to the code provided for the PIRATES Algorithm.
 
 * PART A) Code to build training data for PIRATES
   * make_MCFOST_model.py - code to generate MCFOST models to train PIRATES on.
-  * custom_MCFOST_density.py - collection of adapted files from (insert Alison's Github)
-  * Alison_functions.py - collection of adapted files from (insert Alison's Github)
+  * custom_MCFOST_density.py - collection of adapted files from (https://github.com/alipwong/VAMPIRES-MCFOST-GA)
+  * Alison_functions.py - collection of adapted files from (https://github.com/alipwong/VAMPIRES-MCFOST-GA)
   * requirements file is called : requirements_MCFOST.txt
  
 To run code in Part A), you will need to install MCFOST (Christophe Pinte) version 4.03 - https://github.com/cpinte/mcfost.
