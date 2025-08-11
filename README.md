@@ -1,7 +1,7 @@
 ## PIRATES
 Code for PIRATES Image Reconstruction Algorithm
 
-https://doi.org/10.48550/arXiv.2505.11950
+When using please site our paper: https://doi.org/10.48550/arXiv.2505.11950
 
 There are two components to the code provided for the PIRATES Algorithm. 
 
